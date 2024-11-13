@@ -5,16 +5,11 @@ public class Animal {
     private Vector2d position;
 
     public Animal() {
-        this.orientation = MapDirection.NORTH;
-        this.position = new Vector2d(2, 2);
+        this(new Vector2d(2,2));
     }
     public Animal(Vector2d initialPosition) {
         this.orientation = MapDirection.NORTH;
         this.position = initialPosition;
-    }
-
-    public Vector2d getposition() {
-        return this.position;
     }
 
     @Override
@@ -25,23 +20,24 @@ public class Animal {
         return this.position.equals(position);
     }
     public void move(MoveDirection direction) {
-        switch (direction) {
-            case RIGHT -> this.orientation = this.orientation.next();
-            case LEFT -> this.orientation = this.orientation.previous();
-            case FORWARD -> {
-                Vector2d newPosition = position.add(orientation.toUnitVector());
-                if (newPosition.follows(new Vector2d(0, 0)) && newPosition.precedes(new Vector2d(4, 4))) {
-                    position = newPosition;
-                }
+        Vector2d moveVector = switch (direction) {
+            case FORWARD -> orientation.toUnitVector();
+            case BACKWARD -> orientation.toUnitVector().opposite();
+            default -> null;
+        };
+        if (moveVector != null) {
+            Vector2d potentialPosition = position.add(moveVector);
+            if (potentialPosition.follows(new Vector2d(0, 0)) && potentialPosition.precedes(new Vector2d(4, 4))) {
+                position = potentialPosition;
             }
-            case BACKWARD -> {
-                Vector2d newPosition = position.subtract(orientation.toUnitVector());
-                if (newPosition.follows(new Vector2d(0, 0)) && newPosition.precedes(new Vector2d(4, 4))) {
-                    position = newPosition;
-                }
+        } else {
+            switch (direction) {
+                case RIGHT -> orientation = orientation.next();
+                case LEFT -> orientation = orientation.previous();
             }
         }
     }
+
     public Vector2d getPosition() {
         return position;
     }

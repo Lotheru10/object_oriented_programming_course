@@ -13,9 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     class SimulationTest {
         List<Animal> animals;
-        public List<Animal> getAnimals() {
-            return animals;
-        }
         @Test
         void animalOrientationAfterMoves() {
             List<Vector2d> startingPositions = List.of(new Vector2d(2, 2));
@@ -31,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         @Test
         void animalMovementToLocation() {
             List<Vector2d> startingPositions = new ArrayList<>();
+            startingPositions.add(new Vector2d(2, 2));
             List<MoveDirection> moves = List.of(MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.BACKWARD);
             Simulation simulation = new Simulation(startingPositions, moves);
 

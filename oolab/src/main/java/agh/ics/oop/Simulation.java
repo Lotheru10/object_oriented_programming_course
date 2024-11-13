@@ -23,7 +23,7 @@ public class Simulation {
         for (int i = 0; i < moves.size(); i++) {
             Animal currentAnimal = animals.get(i % animalCount);
             currentAnimal.move(moves.get(i));
-            System.out.printf("%d : %s%n", i % animalCount, currentAnimal.toString());
+            System.out.printf("%d : %s%n", i % animalCount, currentAnimal);
         }
     }
     public List<Animal> getAnimals() {
