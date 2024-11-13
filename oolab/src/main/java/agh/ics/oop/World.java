@@ -1,4 +1,5 @@
 package agh.ics.oop;
+import java.util.List;
 
 import agh.ics.oop.model.MoveDirection;
 
@@ -6,7 +7,9 @@ public class World {
     public static void main(String[] args){
         System.out.println("system wystartował");
 
-        MoveDirection[] directions = OptionsParser.parse(args);
+        List<MoveDirection> directionsList = OptionsParser.parse(args);
+        MoveDirection[] directions = directionsList.toArray(new MoveDirection[0]);
+
         run(directions);
 
         System.out.println("system zakończył działanie");
