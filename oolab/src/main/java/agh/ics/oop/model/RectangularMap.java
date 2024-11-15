@@ -6,20 +6,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RectangularMap implements WorldMap {
-    Map<Vector2d, Animal> animals= new HashMap<>();
+    private Map<Vector2d, Animal> animals= new HashMap<>();
 
     private final int width;
     private final int height;
-    private final static Vector2d bottom = new Vector2d(0,0);
+    private final Vector2d bottom = new Vector2d(0,0);
+    private final Vector2d top;
     public RectangularMap(int width, int height) {
         this.width = width;
         this.height = height;
+        this.top=new Vector2d(width-1,height-1);
+
     }
 
     @Override
     public boolean place(Animal animal) {
         Vector2d position = animal.getPosition();
-        if (!isOccupied(position) && canMoveTo(position) ) {
+        if (canMoveTo(position) ) {
             animals.put(position, animal);
             return true;
         }
@@ -42,8 +45,6 @@ public class RectangularMap implements WorldMap {
             if (direction == MoveDirection.FORWARD || direction == MoveDirection.BACKWARD) {
                 animals.put(newPosition, animal);
                 animals.remove(position);
-                animal.setPosition(newPosition);
-
             }
         }
     }
@@ -60,13 +61,13 @@ public class RectangularMap implements WorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return isOccupied(position) && position.follows(bottom) && position.precedes(new Vector2d(width-1, height-1));
+        return !isOccupied(position) && position.follows(bottom) && position.precedes(top);
     }
 
     @Override
     public String toString() {
         MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
+        return visualizer.draw(bottom, top);
     }
 
 }

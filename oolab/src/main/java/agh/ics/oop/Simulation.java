@@ -43,10 +43,4 @@ public class Simulation {
             System.out.println(map);
         }
     }
-    public List<Animal> getAnimals() {
-        return Collections.unmodifiableList(animals);
-    }
-    public List<MoveDirection> getDirections() {
-        return moves;
-    }
 }
