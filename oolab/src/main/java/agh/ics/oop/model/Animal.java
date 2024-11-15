@@ -14,12 +14,17 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal location: orientation=%s, position=%s}".formatted(orientation, position);
+        return switch (orientation) {
+            case NORTH -> "^";
+            case EAST -> ">";
+            case SOUTH -> "v";
+            case WEST -> "<";
+        };
     }
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
-    public void move(MoveDirection direction) {
+    public void move(MoveDirection direction, MoveValidator validator) {
         Vector2d moveVector = switch (direction) {
             case FORWARD -> orientation.toUnitVector();
             case BACKWARD -> orientation.toUnitVector().opposite();
@@ -27,7 +32,7 @@ public class Animal {
         };
         if (moveVector != null) {
             Vector2d potentialPosition = position.add(moveVector);
-            if (potentialPosition.follows(new Vector2d(0, 0)) && potentialPosition.precedes(new Vector2d(4, 4))) {
+            if (validator.canMoveTo(potentialPosition)) {
                 position = potentialPosition;
             }
         } else {
@@ -41,7 +46,12 @@ public class Animal {
     public Vector2d getPosition() {
         return position;
     }
+
     public MapDirection getOrientation() {
         return orientation;
     }
+    public void setOrientation(MapDirection orientation) {
+        this.orientation = orientation;
+    }
+
 }
