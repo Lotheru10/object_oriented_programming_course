@@ -13,6 +13,7 @@ public class OptionsParser {
                 case "b" -> result.add(MoveDirection.BACKWARD);
                 case "r" -> result.add(MoveDirection.RIGHT);
                 case "l" -> result.add(MoveDirection.LEFT);
+                default -> throw new IllegalArgumentException(dir + " is not legal move specification");
             }
         }
         return result;

@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.exceptions.IncorrectPositionException;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
@@ -15,14 +16,15 @@ public class Simulation {
     private final List<MoveDirection> moves;
     private final WorldMap map;
 
-    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> moves, WorldMap map) {
+    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> moves, WorldMap map) throws IncorrectPositionException {
         if (startingPositions == null || startingPositions.isEmpty()) {
             throw new IllegalArgumentException("Starting positions cannot be empty");
         }
         this.animals = new ArrayList<>();
         for (Vector2d position : startingPositions) {
             Animal animal = new Animal(position);
-            if (map.place(animal)) {
+            if (!animals.contains(animal)) {
+                map.place(animal);
                 animals.add(animal);
             }
         }
@@ -34,12 +36,19 @@ public class Simulation {
             throw new IllegalStateException("There are no animals in the map");
         }
         int animalCount = animals.size();
-
         for (int i = 0; i < moves.size(); i++) {
-            Animal currentAnimal = animals.get(i % animalCount);
-            MoveDirection direction = moves.get(i);
-            map.move(currentAnimal, direction);
-            System.out.println(map);
+            try {
+                Animal currentAnimal = animals.get(i % animalCount);
+                MoveDirection direction = moves.get(i);
+                map.move(currentAnimal, direction);
+            }
+            catch (IndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                System.exit(1);
+            }
         }
 
     }

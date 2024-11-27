@@ -1,7 +1,6 @@
 package agh.ics.oop.model;
 
 public class RectangularMap extends AbstractWorldMap{
-    //dodac super.canMoveTo
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
     public RectangularMap(int width, int height){
@@ -10,11 +9,12 @@ public class RectangularMap extends AbstractWorldMap{
     }
 
     @Override
-    public String toString() {
-        return mapVisualizer.draw(lowerLeft, upperRight);
-    }
-    @Override
     public boolean canMoveTo(Vector2d position) {
         return super.canMoveTo(position) && position.follows(lowerLeft) && position.precedes(upperRight);
+    }
+
+    @Override
+    public Boundary getCurrentBounds() {
+        return new Boundary(lowerLeft, upperRight);
     }
 }
