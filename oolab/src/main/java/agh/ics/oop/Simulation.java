@@ -5,9 +5,8 @@ import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
 
-
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -42,5 +41,9 @@ public class Simulation {
             map.move(currentAnimal, direction);
             System.out.println(map);
         }
+
+    }
+    public List<Animal> getAnimals() {
+        return List.copyOf(Collections.unmodifiableList(animals));
     }
 }
