@@ -85,9 +85,8 @@ class GrassFieldTest {
         Animal animal2 = new Animal(new Vector2d(2, 3));
         map.place(animal1);
         map.place(animal2);
+        System.out.println(map);
         assertEquals(12, map.getElements().size());
     }
-
-
 
 }

@@ -3,7 +3,7 @@ package agh.ics.oop.model;
 import java.util.Objects;
 
 public class Grass implements WorldElement {
-    private Vector2d position;
+    private final Vector2d position;
 
     public Grass(Vector2d position) {
         this.position=position;

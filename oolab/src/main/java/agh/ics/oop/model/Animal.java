@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-public class Animal {
+public class Animal implements WorldElement{
     private MapDirection orientation;
     private Vector2d position;
 
@@ -46,7 +46,6 @@ public class Animal {
     public Vector2d getPosition() {
         return position;
     }
-
     public MapDirection getOrientation() {
         return orientation;
     }

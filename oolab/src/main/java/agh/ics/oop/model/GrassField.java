@@ -1,17 +1,12 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap {
-    int strawAmount;
-    private Map<Vector2d, Animal> animals= new HashMap<>();
-    private List<Grass> grasses= new ArrayList<>();
+    private final int strawAmount;
+    private final Map<Vector2d, Grass> grasses= new HashMap<>();
 
     public GrassField(int strawAmount) {
         this.strawAmount = strawAmount;
@@ -23,41 +18,39 @@ public class GrassField extends AbstractWorldMap {
             int y = (int) (Math.random() * limit);
             Vector2d generatedPosition = new Vector2d(x, y);
             Grass newGrass = new Grass(generatedPosition);
-            if (!grasses.contains(generatedPosition)) {
-                grasses.add(newGrass);
+            if (!grasses.containsKey(generatedPosition)) {
+                grasses.put(generatedPosition, newGrass);
                 placed++;
             }
         }
     }
 
-        @Override
+    @Override
     public WorldElement objectAt(Vector2d position) {
         if (animals.containsKey(position)) {
-            return animals.get(position);
+            return super.objectAt(position);
         }
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position)) {
-                return grass;
-            }
-        }
-        return null;
+        return grasses.get(position);
     }
 
     @Override
     public String toString() {
-        Vector2d bottom = new Vector2d(upperRight.getX(), upperRight.getY()); //moze do poprawy
-        Vector2d top = new Vector2d(lowerLeft.getX(), lowerLeft.getY());
+        Vector2d bottom = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        Vector2d top = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+
         List<WorldElement> elements = getElements();
-        for (WorldElement element: elements) {
+        for (WorldElement element : elements) {
             bottom = bottom.lowerLeft(element.getPosition());
             top = top.upperRight(element.getPosition());
         }
         return mapVisualizer.draw(bottom, top);
     }
 
+
     @Override
     public List<WorldElement> getElements() {
         List<WorldElement> elements = super.getElements();
-        return List.copyOf(Stream.concat(elements.stream(), grasses.stream()).toList());
+        elements.addAll(grasses.values());
+        return elements;
     }
 }
