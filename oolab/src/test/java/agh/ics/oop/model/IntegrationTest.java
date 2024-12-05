@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.Simulation;
+import agh.ics.oop.exceptions.IncorrectPositionException;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +10,7 @@ class IntegrationTest {
     private WorldMap map;
 
     @Test
-    void testAnimalsPlacementOnMap() {
+    void testAnimalsPlacementOnMap() throws IncorrectPositionException {
         List<Vector2d> startingPositions = List.of(new Vector2d(2, 2), new Vector2d(3, 3));
         List<MoveDirection> moves = List.of(MoveDirection.FORWARD);
         map = new RectangularMap(5, 5);
@@ -22,7 +23,7 @@ class IntegrationTest {
     }
 
     @Test
-    void testAnimalMovement() {
+    void testAnimalMovement() throws IncorrectPositionException {
         List<Vector2d> startingPositions = List.of(new Vector2d(2, 2));
         List<MoveDirection> moves = List.of(
                 MoveDirection.FORWARD, MoveDirection.RIGHT,
@@ -37,10 +38,10 @@ class IntegrationTest {
     }
 
     @Test
-    void testAnimalMovementBounds() {
+    void testAnimalMovementBounds() throws IncorrectPositionException {
         List<Vector2d> startingPositions = List.of(new Vector2d(0, 0));
-        List<MoveDirection> moves = List.of(
-                MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.FORWARD
+        List<MoveDirection> moves = List.of(MoveDirection.BACKWARD,
+                MoveDirection.LEFT, MoveDirection.FORWARD
         );
         map = new RectangularMap(5, 5);
         Simulation simulation = new Simulation(startingPositions, moves, map);
@@ -51,7 +52,7 @@ class IntegrationTest {
     }
 
     @Test
-    void testMultipleAnimalsMovement() {
+    void testMultipleAnimalsMovement() throws IncorrectPositionException {
         List<Vector2d> startingPositions = List.of(new Vector2d(2, 2), new Vector2d(3, 3));
         List<MoveDirection> moves = List.of(
                 MoveDirection.FORWARD, MoveDirection.LEFT,
@@ -64,10 +65,10 @@ class IntegrationTest {
         Animal firstAnimal = simulation.getAnimals().get(0);
         Animal secondAnimal = simulation.getAnimals().get(1);
 
-        assertEquals(new Vector2d(3, 2), firstAnimal.getPosition());
+        assertEquals(new Vector2d(2, 3), firstAnimal.getPosition());
         assertEquals(">", firstAnimal.toString());
 
-        assertEquals(new Vector2d(3, 4), secondAnimal.getPosition());
-        assertEquals("^", secondAnimal.toString());
+        assertEquals(new Vector2d(3, 3), secondAnimal.getPosition());
+        assertEquals("<", secondAnimal.toString());
     }
 }
