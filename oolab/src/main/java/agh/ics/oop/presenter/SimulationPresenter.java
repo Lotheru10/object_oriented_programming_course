@@ -1,3 +1,4 @@
+
 package agh.ics.oop.presenter;
 
 
@@ -17,6 +18,6 @@ public class SimulationPresenter implements MapChangeListener{
     public void mapChanged(WorldMap worldMap, String message) {
         setWorldMap(worldMap);
         drawMap();
-        };
-    }
+    };
+}
 

@@ -1,3 +1,4 @@
+
 package agh.ics.oop;
 
 import agh.ics.oop.presenter.SimulationPresenter;
