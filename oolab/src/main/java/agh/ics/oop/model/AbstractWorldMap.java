@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.exceptions.IncorrectPositionException;
+import agh.ics.oop.model.exceptions.IncorrectPositionException;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
@@ -9,6 +9,8 @@ public abstract class AbstractWorldMap implements WorldMap{
     protected final Map<Vector2d, Animal> animals= new HashMap<>();
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
     private final List<MapChangeListener> observers = new ArrayList<>();
+    protected final int id = this.hashCode();
+
 
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);
@@ -68,6 +70,10 @@ public abstract class AbstractWorldMap implements WorldMap{
     public String toString() {
         Boundary currentBounds = getCurrentBounds();
         return mapVisualizer.draw(currentBounds.lowerLeft(), currentBounds.upperRight());
+    }
+
+    public int getId() {
+        return id;
     }
 }
 
